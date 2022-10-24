@@ -1,10 +1,10 @@
 Name: ojuba-repo
-Version: 38
-Release: 2%{?dist}
+Version: 44
+Release: 1%{?dist}
 Summary: Ojuba Software Repos
 Summary(ar): مستودعات أعجوبة البرمجية
 License: WAQFv2
-URL: http://ojuba.org
+URL: https://ojuba.org
 BuildArch: noarch
 
 %description
@@ -17,31 +17,53 @@ Ojuba software repos are including Software from many sources, mainly from Ojuba
 %if 0%{?rhel}
 echo '[ojuba]
 name=Ojuba Software Repos
-mirrorlist=http://ojuba.org/mirrors/ojuba.php?name=epel&ver=7&arch=$basearch
+baseurl=https://download.copr.fedorainfracloud.org/results/moceap/Ojuba/epel-$releasever-$basearch/
+type=rpm-md
+skip_if_unavailable=True
 gpgcheck=1
-gpgkey=http://ojuba.org/repos/pubkey.gpg
-metadata_expire=7h
+gpgkey=https://download.copr.fedorainfracloud.org/results/moceap/Ojuba/pubkey.gpg
+repo_gpgcheck=0
 enabled=1
-enabled_metadata=1' > ojuba.repo
+enabled_metadata=1
+metadata_expire=7h' > ojuba.repo
 %else
 %if 0%{?mandriva}
 echo '[ojuba]
 name=Ojuba Software Repos
-mirrorlist=http://ojuba.org/mirrors/ojuba.php?name=mageia&ver=$releasever&arch=$basearch
+baseurl=https://download.copr.fedorainfracloud.org/results/moceap/Ojuba/mageia-$releasever-$basearch/
+type=rpm-md
+skip_if_unavailable=True
 gpgcheck=1
-gpgkey=http://ojuba.org/repos/pubkey.gpg
-metadata_expire=7h
+gpgkey=https://download.copr.fedorainfracloud.org/results/moceap/Ojuba/pubkey.gpg
+repo_gpgcheck=0
 enabled=1
-enabled_metadata=1' > ojuba.repo
+enabled_metadata=1
+metadata_expire=7h' > ojuba.repo
 %else
 echo '[ojuba]
 name=Ojuba Software Repos
-mirrorlist=http://ojuba.org/mirrors/ojuba.php?name=fedora&ver=$releasever&arch=$basearch
+baseurl=https://download.copr.fedorainfracloud.org/results/moceap/Ojuba/fedora-$releasever-$basearch/
+type=rpm-md
+skip_if_unavailable=True
 gpgcheck=1
-gpgkey=http://ojuba.org/repos/pubkey.gpg
-metadata_expire=7h
+gpgkey=https://download.copr.fedorainfracloud.org/results/moceap/Ojuba/pubkey.gpg
+repo_gpgcheck=0
 enabled=1
-enabled_metadata=1' > ojuba.repo
+enabled_metadata=1
+metadata_expire=7h
+
+[ojuba:ml]
+name=Ojuba Software Repos - Multilib
+baseurl=https://download.copr.fedorainfracloud.org/results/moceap/Ojuba/fedora-$releasever-i386/
+type=rpm-md
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://download.copr.fedorainfracloud.org/results/moceap/Ojuba/pubkey.gpg
+repo_gpgcheck=0
+cost=1100
+enabled=1
+enabled_metadata=1
+metadata_expire=7h' > ojuba.repo
 %endif
 %endif
 
@@ -56,6 +78,9 @@ install -m 644 ojuba.repo %{buildroot}/etc/yum.repos.d
 %config(noreplace) /etc/yum.repos.d/ojuba.repo
 
 %changelog
+* Tue Oct 25 2022 Mosaab Alzoubi <moceap[AT]fedoraproject[DOT]org> - 44-1
+- New generation
+
 * Sat Dec 17 2016 Mosaab Alzoubi <moceap@hotmail.com> - 38-2
 - Enabling repos for Mageia
 
